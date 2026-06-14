@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WeatherApp</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="page">
+        <section class="weather-panel" aria-labelledby="page-title">
+            <div class="intro">
+                <p class="eyebrow">Open-Meteo API</p>
+                <h1 id="page-title">Sprawdz pogode w wybranym miescie</h1>
+            </div>
+
+            <form class="search-form" method="post">
+                <label for="city">Nazwa miasta</label>
+                <div class="search-row">
+                    <input
+                        id="city"
+                        name="city"
+                        type="text"
+                        value="{{ city }}"
+                        placeholder="np. Warszawa"
+                        autocomplete="address-level2"
+                    >
+                    <button type="submit">Szukaj</button>
+                </div>
+            </form>
+
+            {% if error %}
+                <p class="message error">{{ error }}</p>
+            {% endif %}
+
+            {% if weather %}
+                <article class="result">
+                    <div>
+                        <p class="result-label">Aktualna pogoda</p>
+                        <h2>{{ weather.city }}{% if weather.country %}, {{ weather.country }}{% endif %}</h2>
+                    </div>
+
+                    <div class="temperature">{{ weather.temperature }}&deg;C</div>
+
+                    <dl class="details">
+                        <div>
+                            <dt>Odczuwalna</dt>
+                            <dd>{{ weather.feels_like }}&deg;C</dd>
+                        </div>
+                        <div>
+                            <dt>Wilgotnosc</dt>
+                            <dd>{{ weather.humidity }}%</dd>
+                        </div>
+                        <div>
+                            <dt>Wiatr</dt>
+                            <dd>{{ weather.wind_speed }} km/h</dd>
+                        </div>
+                    </dl>
+                </article>
+            {% endif %}
+        </section>
+    </main>
+</body>
+</html>
