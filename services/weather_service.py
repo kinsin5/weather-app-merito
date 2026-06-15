@@ -1,3 +1,5 @@
+from datetime import datetime, timezone
+
 import requests
 
 
@@ -20,6 +22,7 @@ def get_current_weather(city):
         "feels_like": weather["apparent_temperature"],
         "humidity": weather["relative_humidity_2m"],
         "wind_speed": weather["wind_speed_10m"],
+        "searched_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
     }
 
 

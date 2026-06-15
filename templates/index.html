@@ -10,7 +10,7 @@
     <main class="page">
         <section class="weather-panel" aria-labelledby="page-title">
             <div class="intro">
-                <p class="eyebrow">Open-Meteo API</p>
+                <p class="eyebrow">Open-Meteo API + SQLite</p>
                 <h1 id="page-title">Sprawdz pogode w wybranym miescie</h1>
             </div>
 
@@ -31,6 +31,21 @@
 
             {% if error %}
                 <p class="message error">{{ error }}</p>
+            {% endif %}
+
+            {% if database_error %}
+                <p class="message error">{{ database_error }}</p>
+            {% endif %}
+
+            {% if startup_errors %}
+                <div class="message warning">
+                    <strong>Nie wszystkie miasta startowe zostaly odswiezone.</strong>
+                    <ul>
+                        {% for startup_error in startup_errors %}
+                            <li>{{ startup_error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
             {% endif %}
 
             {% if weather %}
@@ -57,6 +72,41 @@
                         </div>
                     </dl>
                 </article>
+            {% endif %}
+
+            {% if recent_searches %}
+                <section class="saved-section" aria-labelledby="saved-title">
+                    <div class="section-heading">
+                        <p class="result-label">SQLite</p>
+                        <h2 id="saved-title">Ostatnie wyszukiwania</h2>
+                    </div>
+
+                    <div class="city-grid">
+                        {% for item in recent_searches %}
+                            <article class="city-card">
+                                <div>
+                                    <h3>{{ item.city }}{% if item.country %}, {{ item.country }}{% endif %}</h3>
+                                    <p>{{ item.searched_at }}</p>
+                                </div>
+                                <strong>{{ item.temperature }}&deg;C</strong>
+                                <dl>
+                                    <div>
+                                        <dt>Odczuwalna</dt>
+                                        <dd>{{ item.feels_like }}&deg;C</dd>
+                                    </div>
+                                    <div>
+                                        <dt>Wilgotnosc</dt>
+                                        <dd>{{ item.humidity }}%</dd>
+                                    </div>
+                                    <div>
+                                        <dt>Wiatr</dt>
+                                        <dd>{{ item.wind_speed }} km/h</dd>
+                                    </div>
+                                </dl>
+                            </article>
+                        {% endfor %}
+                    </div>
+                </section>
             {% endif %}
         </section>
     </main>
