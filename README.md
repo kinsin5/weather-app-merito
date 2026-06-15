@@ -61,29 +61,8 @@ W podstawowym zakresie aplikacja będzie umożliwiała wyszukanie miasta i wyśw
 
 DODAJ STRUKTURE!!
 
-```
-weather-app-flask/
-│
-├── app.py
-├── requirements.txt
-├── README.md
-│
-├── database/
-│   └── weather.db
-│
-├── services/
-│   ├── weather_service.py
-│   └── history_service.py
-│
-├── templates/
-│   └── index.html
-│
-├── static/
-│   └── style.css
-│
-└── docs/
-    └── specyfikacja.md
-```
+![Tree-map](weather-app-merito-tree.png)
+
 
 ## 11. Separacja logiki od widoku
 
@@ -95,84 +74,3 @@ Projekt będzie posiadał prosty podział odpowiedzialności:
 * plik CSS w katalogu `static` będzie odpowiadał za wygląd aplikacji.
 
 Dzięki temu kod będzie czytelniejszy, łatwiejszy do utrzymania i zgodny z zasadą oddzielenia logiki aplikacji od warstwy widoku.
-
-
-## 12. RUN:
-
-.\.venv\Scripts\python.exe -m flask --app app run --host 127.0.0.1 --port 5000 --no-reload
-
-## 13. Dokumentacja techniczna
-
-### Uruchomienie lokalne
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\activate
-pip install -r requirements.txt
-python app.py
-```
-
-Po uruchomieniu aplikacja dziala pod adresem:
-
-```text
-http://127.0.0.1:5000
-```
-
-### Aktualna struktura katalogow
-
-```text
-weather-app-merito/
-|-- app.py
-|-- requirements.txt
-|-- README.md
-|-- sprawdzenie.md
-|-- database/
-|   `-- weather.db
-|-- docs/
-|   |-- feature-api-database-view.md
-|   `-- technical-verification.md
-|-- services/
-|   |-- __init__.py
-|   |-- database_service.py
-|   `-- weather_service.py
-|-- static/
-|   `-- style.css
-`-- templates/
-    `-- index.html
-```
-
-### Podstawowe funkcje aplikacji
-
-1. Uzytkownik wpisuje nazwe miasta w formularzu na stronie glownej.
-2. Aplikacja pobiera wspolrzedne miasta z Open-Meteo Geocoding API.
-3. Aplikacja pobiera aktualna pogode z Open-Meteo Forecast API.
-4. Wynik jest wyswietlany w widoku webowym.
-5. Kazde poprawne wyszukanie jest zapisywane w historii SQLite.
-6. Przy pierwszym starcie aplikacja zapisuje dane dla 10 najwiekszych miast w Polsce.
-7. Strona pokazuje ostatnie wyszukiwania zapisane w bazie.
-8. Aplikacja wyswietla komunikaty bledow dla pustego formularza, nieznanego miasta, problemow z API i problemow z baza danych.
-
-### Struktura bazy SQLite
-
-Baza danych znajduje sie w pliku `database/weather.db`. Tabela `weather_history` jest tworzona automatycznie przy starcie aplikacji.
-
-Kolumny tabeli:
-
-| Kolumna | Typ | Opis |
-| --- | --- | --- |
-| `id` | INTEGER | Klucz glowny rekordu historii |
-| `city` | TEXT | Nazwa miasta |
-| `country` | TEXT | Nazwa kraju |
-| `temperature` | REAL | Aktualna temperatura |
-| `feels_like` | REAL | Temperatura odczuwalna |
-| `humidity` | INTEGER | Wilgotnosc |
-| `wind_speed` | REAL | Predkosc wiatru |
-| `searched_at` | TEXT | Data i czas pobrania danych |
-
-### Separacja odpowiedzialnosci
-
-- `app.py` odpowiada za routing Flask, obsluge formularza i przekazywanie danych do widoku.
-- `services/weather_service.py` odpowiada za polaczenie z API pogodowym.
-- `services/database_service.py` odpowiada za SQLite, seed danych i historie wyszukiwan.
-- `templates/index.html` odpowiada za warstwe widoku.
-- `static/style.css` odpowiada za wyglad aplikacji.
